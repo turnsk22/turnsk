@@ -1,0 +1,123 @@
+﻿*{
+    margin: 0;
+    padding: 0;   
+}
+
+header{
+    height: 400px;
+    background-image: url('../1.webp');
+    background-size: auto 700px;
+    background-repeat: no-repeat;
+    margin-bottom: 20px;
+}
+
+.header-inner{
+    color: white;
+    font-size: 50px;
+    text-align: center;
+    font-family: Comic Sans MS;
+}
+
+a{ text-decoration: none;}
+
+.some-hotel{
+    height: 400px;
+    width: 400px;
+    margin: auto;
+}
+
+.some-hotel:hover{
+    border-bottom: 2px solid orange;
+}
+
+.logo{
+    background-image: url('https://pegast.ru/static/pegast/logos/logo-slogan.svg');
+    background-repeat: no-repeat;
+    width: 100%;
+    height:70px;
+    margin-bottom: 5px;
+}
+
+.some-hotel img{
+    width: 100%;
+    margin-top:0px;
+}
+
+.bottom-some-hotel{
+    display:flex;
+    justify-content:space-between;
+    width: 100%;
+}
+
+.left-bottom-some-hotels{
+    margin-left: 10px;
+}
+
+.left-bottom-some-hotels span{
+    text-decoration: none;
+    color: green;
+    font-family: Comic Sans MS;
+}
+
+.left-bottom-some-hotels div{
+    text-decoration: none;
+    color: black;
+    font-size:15px;
+}
+
+
+.right-bottom-some-hotels{
+    font-size:30px;
+    font-family: Comic Sans MS;
+    color: orange;
+}
+
+.header-tour{
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.all-hotels{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    max-width:1500px;
+    flex-wrap: wrap;
+    margin:auto;
+}
+
+@media screen and (min-width: 1000px){
+    header{
+        height: 1300px;
+        background-size: auto 1300px; 
+    }
+    .header-inner{
+        font-size: 100px;
+    }
+     /* Стили CSS ... */ }
+
+footer{
+    margin-top: 20px;
+    height: 40px;
+    width: 100%;
+    background-color: orange;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inner-footer{
+    color: white;
+    font-size: 25px;
+}
+
+.phone {
+	color: #000;
+	font-size: 16px;
+	font-weight: 900;
+}
+.phone a {
+	color: #000;
+	font-size: 16px;
+	font-weight: 900;
+}
