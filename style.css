@@ -1,4 +1,4 @@
-﻿*{
+*{
     margin: 0;
     padding: 0;   
 }
@@ -109,15 +109,4 @@ footer{
 .inner-footer{
     color: white;
     font-size: 25px;
-}
-
-.phone {
-	color: #000;
-	font-size: 16px;
-	font-weight: 900;
-}
-.phone a {
-	color: #000;
-	font-size: 16px;
-	font-weight: 900;
 }
