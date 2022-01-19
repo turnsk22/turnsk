@@ -25,11 +25,7 @@ a{ text-decoration: none;}
     width: 400px;
     margin: auto;
 }
-.pegast{
-  height: 200px;
-    width: 400px;
-    margin:10px;
-}
+
 
 .some-hotel:hover{
     border-bottom: 2px solid orange;
@@ -116,5 +112,5 @@ footer{
     font-size: 25px;
 }
 .main-logo{
-     margin-left:10%;
+     margin-left:10px;
 }	
