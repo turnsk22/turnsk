@@ -20,7 +20,7 @@ $text=stripslashes($text);
 $text=htmlspecialchars($text);
 }
 // адрес почты куда придет письмо
-$address="mail@mail.ru";
+$address="pioneertour@mail.ru";
 // текст письма 
 $note_text="Тема : $urok \r\nИмя : $name1 \r\n Email : $email1 \r\n Дополнительная информация : $text";
  
