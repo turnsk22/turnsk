@@ -78,8 +78,8 @@ a{ text-decoration: none;}
 }
 
 .recom{
-font-size:30px;
-font-color: Red
+   font-size:30px;
+   font-color: red
 }
 .all-hotels{
     display: flex;
