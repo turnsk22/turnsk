@@ -2,7 +2,10 @@
     margin: 0;
     padding: 0;   
 }
-
+.recom{
+   font-size:310px;
+   font-color: red;
+}
 header{
     height: 400px;
     background-image: url('../1.webp');
@@ -77,10 +80,7 @@ a{ text-decoration: none;}
     margin-bottom: 15px;
 }
 
-.recom{
-   font-size:310px;
-   font-color: red;
-}
+
 .all-hotels{
     display: flex;
     width: 80%;
@@ -99,6 +99,7 @@ a{ text-decoration: none;}
         font-size: 100px;
     }
      /* Стили CSS ... */ }
+
 
 footer{
     margin-top: 20px;
