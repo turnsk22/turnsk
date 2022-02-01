@@ -115,6 +115,19 @@ a{ text-decoration: none;}
      /* Стили CSS ... */ }
 
 
+@media screen and (min-width: 1300px){
+ 	.main-logo{
+    	margin-left: 10%;
+	}
+ }
+
+@media screen and (max-width: 1300px){
+ 	.main-logo{
+     display: block;
+    margin-left: auto;
+    margin-right: auto;
+	}
+ }
 
 footer{
     margin-top: 20px;
@@ -130,6 +143,3 @@ footer{
     color: white;
     font-size: 25px;
 }
-.main-logo{
-     margin-left:10%;
-}	
