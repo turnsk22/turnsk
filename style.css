@@ -21,6 +21,11 @@ header{
 a{ text-decoration: none;}
 
 .some-hotel{
+    	margin-top: 20px;
+    	padding-bottom: 50px;
+}
+
+.some-hotel{
     height: 400px;
     width: 400px;
     margin: auto;
@@ -39,9 +44,18 @@ a{ text-decoration: none;}
     margin-bottom: 5px;
 }
 
+.some-hotel{
+    margin-top: 30px;
+    padding-bottom:40px;
+}
+
 .some-hotel img{
     width: 100%;
     margin-top:0px;
+}
+
+.some-hotel img{
+	height: 300px;
 }
 
 .bottom-some-hotel{
@@ -58,12 +72,15 @@ a{ text-decoration: none;}
     text-decoration: none;
     color: green;
     font-family: Comic Sans MS;
+	font-size: 11pt;
 }
 
 .left-bottom-some-hotels div{
     text-decoration: none;
     color: black;
     font-size:15px;
+
+    margin-bottom: 20px;
 }
 
 
@@ -96,6 +113,8 @@ a{ text-decoration: none;}
         font-size: 100px;
     }
      /* Стили CSS ... */ }
+
+
 
 footer{
     margin-top: 20px;
