@@ -161,39 +161,33 @@ footer{
 
 .social-media{
 	width: 100%;
-
-
 	background: orange;
 
 	height: 60px;
 }
 
 .social-media-inner{
-	display:flex;
-
-	justify-content: space-between;
-
 	width: 80%;
 	max-width: 1500px;
-
 	height: 60px;
-
 	margin: auto;
+	display: flex;
 }
 
 .whatsapp{
 	 background-image: url('whatsapp.jpg');
     background-repeat: no-repeat;
     background-size: 200px auto;
-    background-color: red;
-
     width: 200px;
+
+
 }
 
 .instagram{
+	margin-left:auto;
+
 	 background-image: url('Instagram.svg');
     background-repeat: no-repeat;
     background-size: 50px auto;
-
-    width: 200px;
+    width: 50px;
 }
