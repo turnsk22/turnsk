@@ -11,6 +11,11 @@ header{
     margin-bottom: 20px;
 }
 
+.sentance{
+	width: 80%;
+	font-size: 2em;
+}
+
 .header-inner{
     color: white;
     font-size: 50px;
@@ -45,8 +50,8 @@ a{ text-decoration: none;}
 }
 
 .some-hotel{
-    margin-top: 30px;
-    padding-bottom:40px;
+    padding-bottom:60px;
+    margin-bottom: 40px;
 }
 
 .some-hotel img{
@@ -161,7 +166,6 @@ footer{
 
 .social-media{
 	width: 100%;
-	background: orange;
 
 	height: 60px;
 }
