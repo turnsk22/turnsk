@@ -1,4 +1,4 @@
-﻿*{
+*{
     margin: 0;
     padding: 0;   
 }
@@ -155,9 +155,45 @@ footer{
     font-size: 25px;
     display:flex;
     justify-content: space-between;
-    width: 80%;
-    max-width:1500px;
-    flex-wrap: wrap;
-    margin:auto;
-    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.social-media{
+	width: 100%;
+
+
+	background: orange;
+
+	height: 60px;
+}
+
+.social-media-inner{
+	display:flex;
+
+	justify-content: space-between;
+
+	width: 80%;
+	max-width: 1500px;
+
+	height: 60px;
+
+	margin: auto;
+}
+
+.whatsapp{
+	 background-image: url('whatsapp.jpg');
+    background-repeat: no-repeat;
+    background-size: 200px auto;
+    background-color: red;
+
+    width: 200px;
+}
+
+.instagram{
+	 background-image: url('Instagram.svg');
+    background-repeat: no-repeat;
+    background-size: 50px auto;
+
+    width: 200px;
 }
