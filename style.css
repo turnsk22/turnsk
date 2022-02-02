@@ -89,11 +89,22 @@ a{ text-decoration: none;}
     margin-bottom: 20px;
 }
 
-
 .right-bottom-some-hotels{
     font-size:30px;
     font-family: Comic Sans MS;
     color: orange;
+}
+
+.right-bottom-some-hotels span{
+    font-size:30px;
+    font-family: Comic Sans MS;
+    color: orange;
+}
+
+.right-bottom-some-hotels div{
+    font-size: 10px;
+    font-family: Comic Sans MS;
+    color: black;
 }
 
 .header-tour{
