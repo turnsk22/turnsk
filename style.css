@@ -60,9 +60,9 @@ a{ text-decoration: none;}
     margin-top:0px;
 }
 
-/*.some-hotel img{
-	height: 300px;
-}*/
+.some-hotel img{
+	height: 75%;
+}
 
 .bottom-some-hotel{
     display:flex;
