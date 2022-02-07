@@ -13,7 +13,7 @@ header{
 
 .sentance{
 	width: 80%;
-	font-size: 2em;
+	font-size: 1em;
 	margin-bottom: 40px;
 }
 
@@ -129,7 +129,7 @@ a{ text-decoration: none;}
 	flex-wrap: wrap;
     margin:auto;
     text-align: justify;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 @media screen and (min-width: 1000px){
