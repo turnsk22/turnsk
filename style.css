@@ -191,7 +191,7 @@ footer{
 }
 
 .whatsapp{
-	 background-image: url('whatsapp.jpg');
+	 background-image: url('whatsapp.svg');
     background-repeat: no-repeat;
     background-size: 200px auto;
     width: 200px;
@@ -201,7 +201,7 @@ footer{
 
 .instagram{
 	margin-left:auto;
-	background-image: url('Instagram.svg');
+	background-image: url('insta.svg');
     background-repeat: no-repeat;
     background-size: 50px auto;
     width:50px;	
