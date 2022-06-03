@@ -147,8 +147,6 @@ a{ text-decoration: none;}
 @media screen and (min-width: 1300px){
  	.main-logo{
     	margin-left: 10%;
-	float: left;
-	margin: 50px 50px 4000px 5000 px;
 	width: 350px; 
 	}
  }
@@ -160,7 +158,7 @@ a{ text-decoration: none;}
     margin-right: auto;
 		margin-left: 10%;
 	float: left;
-	margin: 50px 50px 4000px 5000 px;
+	margin: 50px 50px 4000px 5000px;
 	width: 350px; 
 	}
  }
