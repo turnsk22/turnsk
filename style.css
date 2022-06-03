@@ -136,6 +136,7 @@ a{ text-decoration: none;}
     header{
         height: 1300px;
         background-size: auto 1300px; 
+	   
     }
     .header-inner{
         font-size: 100px;
@@ -146,6 +147,9 @@ a{ text-decoration: none;}
 @media screen and (min-width: 1300px){
  	.main-logo{
     	margin-left: 10%;
+	float: left;
+	margin: 50px 50px 50px 50 px;
+	width: 350px; 
 	}
  }
 
