@@ -29,13 +29,12 @@
             let title = document.getElementsByClassName("name_1")[0];
             let description = document.getElementsByClassName("name_2")[0];
             let text = document.getElementsByClassName("name_3")[0];
-            let client = tg.initData
-	
+            
+            
             let data = {
                 title: title.value,
                 desc: description.value,    
                 text: text.value
-                client: client		
             }
 
             tg.sendData(JSON.stringify(data));
