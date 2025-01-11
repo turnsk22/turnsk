@@ -2,9 +2,9 @@
 <body>
     <form class="test-form">
          Введите имя, фамилию, дату рождения, серия и номер паспорта, срок действия: 
-        <input type="text" placeholder="Ivanov Petr 01.01.1980 761234567 до 31.12.2049" class="name">
+        <br><input type="text" placeholder="Ivanov Petr 01.01.1980 761234567 до 31.12.2049" class="name_1">
         <br>	
-        <input type="text" placeholder="Ivanova Elena 01.01.1981 761224567 до 31.12.2049" class="name">  
+        <input type="text" placeholder="Ivanova Elena 01.01.1981 761224567 до 31.12.2049" class="name_2">  
         <br><br> 
          Введите Телефон:
         <input type="text" placeholder="89130000001" class="telephone">
@@ -20,15 +20,15 @@
         let sBtn = document.getElementsByClassName("s-btn")[0]
 
         sBtn.addEventListener("click", () => {
-            let d_1 = document.getElementsByClassName("name")[0];
-            let d_2 = document.getElementsByClassName("name")[1];
-            let t = document.getElementsByClassName("telephone")[0];
+            let d_1 = document.getElementsByClassName("name_1")[0];
+            let d_2 = document.getElementsByClassName("name_2")[0];
+            let tel = document.getElementsByClassName("telephone")[0];
             
             
             let data = {
                 p1: d_1,
                 p2: d_2,
-                p3:t	
+                p3:tel	
             }
 
             tg.sendData(JSON.stringify(data));
