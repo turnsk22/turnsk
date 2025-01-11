@@ -1,40 +1,63 @@
 ﻿</head>
 <body>
-    <div class="Main">
-        <h1>Тестовое приложение</h1>
-        <p></p>
-        <button class="btn f-btn">Тест отправки данных</button>
-    </div>
-    <form class="test-form">    
-        <input type="text" placeholder="Имя" class="name_1">
-        <input type="text" placeholder="Фамилия" class="name_2">
-        <input type="text" placeholder="Телефон" class="name_3">
-        <button class="btn s-btn">Отправить</button>
+    <form class="test-form">
+        <label> Введите имя и фамилию:</label>
+        <input type="text" placeholder="Ivanov Petr" class="name_1">
+        <br>	
+        <label> Введите серию и номер загр.паспорта:</label>	
+        <input type="text" placeholder="76 123456" class="name_2">
+        <br> 
+        <label> Введите срок действия паспорта:</label>	
+        <input type="text" placeholder="31.12.2039" class="name_3">
+        <br>
+        <label> Введите дату рождения:</label>			
+        <input type="text" placeholder="01.01.1980" class="name_4">
+        <br><br><br>
+        <label> Введите имя и фамилию:</label>
+        <input type="text" placeholder="Ivanov Petr" class="name_1">
+        <br>	
+        <label> Введите серию и номер загр.паспорта:</label>	
+        <input type="text" placeholder="76 123456" class="name_2">
+        <br> 
+        <label> Введите срок действия паспорта:</label>	
+        <input type="text" placeholder="31.12.2039" class="name_3">
+        <br>
+        <label> Введите дату рождения:</label>			
+        <input type="text" placeholder="01.01.1980" class="name_4">
+        <br>
+   
+        		
+
+        <br><br><button class="btn s-btn">Перейти к договору и оплате</button>
     </form>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <script>
         let tg = window.Telegram.WebApp;
-
-        let fBtn = document.getElementsByClassName("f-btn")[0]
         let sBtn = document.getElementsByClassName("s-btn")[0]
 
-        fBtn.addEventListener("click", () => {
-            document.getElementsByClassName("Main")[0].style.display = "none";
-            document.getElementsByClassName("test-form")[0].style.display = "block";
-        });
-
         sBtn.addEventListener("click", () => {
-            let title = document.getElementsByClassName("name_1")[0];
-            let description = document.getElementsByClassName("name_2")[0];
-            let text = document.getElementsByClassName("name_3")[0];
+            let d_1 = document.getElementsByClassName("name_1")[0];
+            let d_2 = document.getElementsByClassName("name_2")[0];
+            let d_3 = document.getElementsByClassName("name_3")[0];
+            let d_4 = document.getElementsByClassName("name_4")[0];
+            let d_5 = document.getElementsByClassName("name_5")[0];
+            let d_6 = document.getElementsByClassName("name_6")[0];
+            let d_7 = document.getElementsByClassName("name_7")[0];
+            let d_8 = document.getElementsByClassName("name_8")[0];
+	
             
             
             let data = {
-                title: title.value,
-                desc: description.value,    
-                text: text.value
+                p1: d_1,
+                p2: d_2,    
+                p3: d_3,
+                p4: d_4,
+                p5: d_5,
+                p6: d_6,
+                p7: d_7,
+                p8:d_8			
             }
 
             tg.sendData(JSON.stringify(data));
