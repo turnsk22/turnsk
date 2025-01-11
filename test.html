@@ -3,9 +3,9 @@
 Введите имя, фамилию, дату рождения, серия и номер паспорта, срок действия:	
     <form class="test-form">
           
-        <br><input type="text" placeholder="Ivanov Petr 01.01.1980 761234567 до 31.12.2049" class="name_1">
+        <br><input type="text"  size = 50 placeholder="Ivanov Petr 01.01.1980 761234567 до 31.12.2049" class="name_1">
         <br>	
-        <input type="text" placeholder="Ivanova Elena 01.01.1981 761224567 до 31.12.2049" class="name_2">  
+        <input type="text" size= 50  placeholder="Ivanova Elena 01.01.1981 761224567 до 31.12.2049" class="name_2">  
         <br><br> 
         <input type="text" placeholder="Введите Ваш номер" class="telephone">
         <br><br><button class="btn s-btn">Перейти к оплате</button>
@@ -26,9 +26,9 @@
             
             
             let data = {
-                p1: d_1,
-                p2: d_2,
-                p3:tel	
+                p1: d_1.value,
+                p2: d_2.value,
+                p3: tel.value	
             }
 
             tg.sendData(JSON.stringify(data));
