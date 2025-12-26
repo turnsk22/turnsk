@@ -254,29 +254,6 @@
             }
         }
         
-        /* Стили для кнопки тестовых данных */
-        .test-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #10b981;
-            color: white;
-            border: none;
-            padding: 12px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-            z-index: 100;
-            transition: all 0.2s ease;
-        }
-        
-        .test-btn:active {
-            transform: scale(0.95);
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
-        }
-        
         /* Улучшение для select */
         .select-wrapper {
             position: relative;
@@ -343,8 +320,20 @@
                 <!-- Оператор -->
                 <div class="form-group">
                     <label for="operator" class="required">Оператор</label>
-                    <input type="text" id="operator" name="operator" placeholder="Название туроператора" required>
-                    <span class="hint">Укажите название компании-туроператора</span>
+                    <div class="select-wrapper">
+                        <select id="operator" name="operator" required>
+                            <option value="" disabled selected>Выберите туроператора</option>
+                            <option value="Пегас Туристик">Пегас Туристик</option>
+                            <option value="Корал">Корал</option>
+                            <option value="Анекс">Анекс</option>
+                            <option value="Фан Сан">Фан Сан</option>
+                            <option value="Глобус Тур">Глобус Тур</option>
+                            <option value="Спектрум">Спектрум</option>
+                            <option value="Спейс Тревел">Спейс Тревел</option>
+                            <option value="Библио Глобус">Библио Глобус</option>
+                        </select>
+                    </div>
+                    <span class="hint">Выберите туроператора из списка</span>
                 </div>
                 
                 <!-- Сумма и валюта -->
@@ -387,16 +376,12 @@
         </footer>
     </div>
 
-    <!-- Кнопка для автозаполнения тестовыми данными -->
-    <button class="test-btn" id="testDataBtn">Тестовые данные</button>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('tourForm');
             const phoneInput = document.getElementById('phone');
             const tourCompositionTextarea = document.getElementById('tourComposition');
             const charCounter = document.getElementById('charCounter');
-            const testDataBtn = document.getElementById('testDataBtn');
             
             // Маска для номера телефона (формат: 8XXXXXXXXXX)
             phoneInput.addEventListener('input', function(e) {
@@ -473,58 +458,59 @@
                 
                 // Собираем данные из формы
                 const formData = {
-                    fullName: document.getElementById('fullName').value,
+                    fullName: document.getElementById('fullName').value.trim(),
                     phone: phoneInput.value,
-                    contractNumber: document.getElementById('contractNumber').value,
+                    contractNumber: document.getElementById('contractNumber').value.trim(),
                     operator: document.getElementById('operator').value,
                     amount: document.getElementById('amount').value,
                     currency: document.getElementById('currency').value,
-                    tourComposition: tourCompositionTextarea.value
+                    tourComposition: tourCompositionTextarea.value.trim(),
+                    timestamp: new Date().toISOString()
                 };
                 
-                // Проверяем, что все поля заполнены
+                // Проверяем, что все обязательные поля заполнены
                 for (const key in formData) {
-                    if (!formData[key]) {
+                    if (key !== 'timestamp' && !formData[key]) {
                         alert('Пожалуйста, заполните все обязательные поля!');
                         return;
                     }
                 }
                 
-                // Форматируем данные для отображения
-                const message = `Данные успешно отправлены!\n\nФИО: ${formData.fullName}\nТелефон: ${formData.phone}\nНомер договора: ${formData.contractNumber}\nОператор: ${formData.operator}\nСумма тура: ${formData.amount} ${formData.currency}\n\nСостав тура:\n${formData.tourComposition.substring(0, 200)}${formData.tourComposition.length > 200 ? '...' : ''}\n\nСпасибо за использование нашей формы!`;
+                // Проверяем, что сумма - положительное число
+                if (parseFloat(formData.amount) <= 0) {
+                    alert('Сумма тура должна быть положительным числом!');
+                    document.getElementById('amount').focus();
+                    return;
+                }
                 
-                // Показываем сообщение с данными
-                alert(message);
+                // Проверяем, открыто ли в Telegram WebApp
+                if (window.Telegram && Telegram.WebApp) {
+                    // Отправляем данные в Telegram бота
+                    Telegram.WebApp.sendData(JSON.stringify(formData));
+                    
+                    // Показываем сообщение об успехе
+                    Telegram.WebApp.showAlert('Данные успешно отправлены! Форма будет закрыта.', function() {
+                        // Закрываем веб-приложение
+                        Telegram.WebApp.close();
+                    });
+                } else {
+                    // Если не в Telegram, показываем данные в alert
+                    const message = `Данные успешно отправлены!\n\nФИО: ${formData.fullName}\nТелефон: ${formData.phone}\nНомер договора: ${formData.contractNumber}\nОператор: ${formData.operator}\nСумма тура: ${formData.amount} ${formData.currency}\n\nСостав тура:\n${formData.tourComposition.substring(0, 200)}${formData.tourComposition.length > 200 ? '...' : ''}\n\nСпасибо за использование нашей формы!`;
+                    alert(message);
+                    
+                    // Очищаем форму
+                    form.reset();
+                    
+                    // Сбрасываем стили
+                    phoneInput.style.borderColor = '#e2e8f0';
+                    phoneInput.style.backgroundColor = '#f8fafc';
+                    phoneInput.style.letterSpacing = 'normal';
+                    charCounter.textContent = '0/1000 символов';
+                    charCounter.className = 'char-counter';
+                }
                 
-                // В реальном приложении здесь был бы код для отправки данных на сервер
+                // Логируем данные в консоль для отладки
                 console.log('Данные формы:', formData);
-                
-                // Сброс стилей после успешной отправки
-                phoneInput.style.borderColor = '#e2e8f0';
-                phoneInput.style.backgroundColor = '#f8fafc';
-            });
-            
-            // Автозаполнение тестовыми данными
-            testDataBtn.addEventListener('click', function() {
-                document.getElementById('fullName').value = 'Петрова Анна Сергеевна';
-                phoneInput.value = '89161234567';
-                document.getElementById('contractNumber').value = 'ТУР-2023-009876';
-                document.getElementById('operator').value = 'Туроператор "Мир путешествий"';
-                document.getElementById('amount').value = '1250.50';
-                document.getElementById('currency').value = 'USD';
-                tourCompositionTextarea.value = 'Тур включает: перелет Москва-Анталья-Москва (авиакомпания "Аэрофлот"), проживание в отеле "Sunrise Resort" 5* (7 ночей), питание "всё включено", трансфер аэропорт-отель-аэропорт, две экскурсии (Обзорная по Антальи и Памуккале), медицинская страховка на весь период пребывания.';
-                
-                // Обновляем счетчик символов
-                tourCompositionTextarea.dispatchEvent(new Event('input'));
-                
-                // Визуальная обратная связь
-                this.textContent = 'Данные заполнены!';
-                this.style.backgroundColor = '#3b82f6';
-                
-                setTimeout(() => {
-                    this.textContent = 'Тестовые данные';
-                    this.style.backgroundColor = '#10b981';
-                }, 1500);
             });
             
             // Очистка формы
@@ -550,6 +536,13 @@
                     document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
                 });
             });
+            
+            // Инициализация Telegram WebApp
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.ready();
+                Telegram.WebApp.expand();
+                Telegram.WebApp.enableClosingConfirmation();
+            }
         });
     </script>
 </body>
