@@ -1,1 +1,556 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Форма оформления тура</title>
+    <style>
+        /* Сброс стилей и базовая настройка */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: #f8fafd;
+            color: #333;
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        /* Контейнер формы */
+        .container {
+            max-width: 100%;
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Шапка */
+        .header {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 20px 15px;
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 0;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        /* Форма */
+        .form-container {
+            background-color: white;
+            padding: 20px 15px;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            flex-grow: 1;
+        }
+        
+        /* Группы полей */
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1e40af;
+            font-size: 0.95rem;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        /* Поля ввода */
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background-color: #f8fafc;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            background-color: white;
+        }
+        
+        /* Особые стили для textarea */
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        /* Строка с суммой и валютой */
+        .amount-row {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        @media (min-width: 400px) {
+            .amount-row {
+                flex-direction: row;
+            }
+            
+            .amount-row .sum-col {
+                flex: 2;
+            }
+            
+            .amount-row .currency-col {
+                flex: 1;
+            }
+        }
+        
+        /* Кнопки */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        @media (min-width: 500px) {
+            .button-group {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        
+        button {
+            padding: 16px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .submit-btn {
+            background-color: #3b82f6;
+            color: white;
+            box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
+        }
+        
+        .submit-btn:active {
+            background-color: #1d4ed8;
+            transform: translateY(2px);
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
+        }
+        
+        .reset-btn {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .reset-btn:active {
+            background-color: #e2e8f0;
+        }
+        
+        /* Подсказки */
+        .hint {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 6px;
+            display: block;
+            line-height: 1.4;
+        }
+        
+        /* Футер */
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            padding: 15px 0;
+        }
+        
+        /* Улучшения для мобильных устройств */
+        @media (max-width: 350px) {
+            body {
+                font-size: 15px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .header, .form-container {
+                padding: 15px 12px;
+            }
+            
+            button {
+                padding: 14px 18px;
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Для планшетов и больших экранов */
+        @media (min-width: 768px) {
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 700px;
+                min-height: auto;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+            
+            .header {
+                padding: 25px 30px;
+            }
+            
+            .form-container {
+                padding: 30px;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Стили для кнопки тестовых данных */
+        .test-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            z-index: 100;
+            transition: all 0.2s ease;
+        }
+        
+        .test-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* Улучшение для select */
+        .select-wrapper {
+            position: relative;
+        }
+        
+        .select-wrapper::after {
+            content: "▼";
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+            font-size: 0.8rem;
+        }
+        
+        /* Счетчик символов для textarea */
+        .char-counter {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-align: right;
+            margin-top: 5px;
+        }
+        
+        .char-counter.warning {
+            color: #f59e0b;
+        }
+        
+        .char-counter.error {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Форма оформления тура</h1>
+            <div class="subtitle">Заполните данные для оформления туристической поездки</div>
+        </div>
+        
+        <div class="form-container">
+            <form id="tourForm">
+                <!-- ФИО -->
+                <div class="form-group">
+                    <label for="fullName" class="required">Фамилия, Имя, Отчество</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Иванов Иван Иванович" required>
+                    <span class="hint">Введите полностью ваше ФИО</span>
+                </div>
+                
+                <!-- Телефон -->
+                <div class="form-group">
+                    <label for="phone" class="required">Номер телефона</label>
+                    <input type="tel" id="phone" name="phone" placeholder="8XXXXXXXXXX" required maxlength="11">
+                    <span class="hint">Формат: 8XXXXXXXXXX (11 цифр, начинается с 8)</span>
+                </div>
+                
+                <!-- Номер договора -->
+                <div class="form-group">
+                    <label for="contractNumber" class="required">Номер договора</label>
+                    <input type="text" id="contractNumber" name="contractNumber" placeholder="ТУР-2023-004567" required>
+                    <span class="hint">Пример: ТУР-2023-004567</span>
+                </div>
+                
+                <!-- Оператор -->
+                <div class="form-group">
+                    <label for="operator" class="required">Оператор</label>
+                    <input type="text" id="operator" name="operator" placeholder="Название туроператора" required>
+                    <span class="hint">Укажите название компании-туроператора</span>
+                </div>
+                
+                <!-- Сумма и валюта -->
+                <div class="form-group">
+                    <label for="amount" class="required">Сумма тура</label>
+                    <div class="amount-row">
+                        <div class="sum-col">
+                            <input type="number" id="amount" name="amount" min="0" step="0.01" placeholder="10000.00" required>
+                        </div>
+                        <div class="currency-col select-wrapper">
+                            <select id="currency" name="currency" required>
+                                <option value="" disabled selected>Выберите валюту</option>
+                                <option value="USD">USD - Доллар США</option>
+                                <option value="EURO">EURO - Евро</option>
+                                <option value="RUB">RUB - Российский рубль</option>
+                            </select>
+                        </div>
+                    </div>
+                    <span class="hint">Укажите полную стоимость тура в выбранной валюте</span>
+                </div>
+                
+                <!-- Состав туристского продукта -->
+                <div class="form-group">
+                    <label for="tourComposition" class="required">Состав туристского продукта</label>
+                    <textarea id="tourComposition" name="tourComposition" placeholder="Опишите состав тура: перелет, проживание, питание, экскурсии и т.д." required></textarea>
+                    <div id="charCounter" class="char-counter">0/1000 символов</div>
+                    <span class="hint">Опишите все элементы тура: перелет, отель, питание, трансферы, экскурсии</span>
+                </div>
+                
+                <!-- Кнопки -->
+                <div class="button-group">
+                    <button type="reset" class="reset-btn">Очистить форму</button>
+                    <button type="submit" class="submit-btn">Отправить данные</button>
+                </div>
+            </form>
+        </div>
+        
+        <footer>
+            <p>© 2023 Форма оформления тура. Все данные защищены.</p>
+        </footer>
+    </div>
 
+    <!-- Кнопка для автозаполнения тестовыми данными -->
+    <button class="test-btn" id="testDataBtn">Тестовые данные</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('tourForm');
+            const phoneInput = document.getElementById('phone');
+            const tourCompositionTextarea = document.getElementById('tourComposition');
+            const charCounter = document.getElementById('charCounter');
+            const testDataBtn = document.getElementById('testDataBtn');
+            
+            // Маска для номера телефона (формат: 8XXXXXXXXXX)
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                
+                // Ограничиваем 11 цифрами
+                if (value.length > 11) {
+                    value = value.substring(0, 11);
+                }
+                
+                // Убедимся, что номер начинается с 8
+                if (value.length > 0 && !value.startsWith('8')) {
+                    value = '8' + value.substring(1);
+                }
+                
+                e.target.value = value;
+                
+                // Добавляем визуальное форматирование для отображения
+                if (value.length >= 1) {
+                    phoneInput.style.letterSpacing = '0.5px';
+                } else {
+                    phoneInput.style.letterSpacing = 'normal';
+                }
+            });
+            
+            // Валидация телефона при потере фокуса
+            phoneInput.addEventListener('blur', function() {
+                const value = this.value.replace(/\D/g, '');
+                if (value.length === 11 && value.startsWith('8')) {
+                    this.style.borderColor = '#10b981';
+                    this.style.backgroundColor = '#f0fdf4';
+                } else if (value.length > 0) {
+                    this.style.borderColor = '#ef4444';
+                    this.style.backgroundColor = '#fef2f2';
+                } else {
+                    this.style.borderColor = '#e2e8f0';
+                    this.style.backgroundColor = '#f8fafc';
+                }
+            });
+            
+            // Счетчик символов для поля "Состав туристского продукта"
+            tourCompositionTextarea.addEventListener('input', function() {
+                const length = this.value.length;
+                charCounter.textContent = `${length}/1000 символов`;
+                
+                // Изменяем цвет в зависимости от количества символов
+                if (length > 800) {
+                    charCounter.className = 'char-counter warning';
+                } else if (length > 950) {
+                    charCounter.className = 'char-counter error';
+                } else {
+                    charCounter.className = 'char-counter';
+                }
+                
+                // Ограничиваем ввод 1000 символами
+                if (length > 1000) {
+                    this.value = this.value.substring(0, 1000);
+                    charCounter.textContent = '1000/1000 символов (превышен лимит)';
+                    charCounter.className = 'char-counter error';
+                }
+            });
+            
+            // Обработка отправки формы
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                // Проверяем валидность телефона
+                const phoneValue = phoneInput.value.replace(/\D/g, '');
+                if (phoneValue.length !== 11 || !phoneValue.startsWith('8')) {
+                    alert('Пожалуйста, введите корректный номер телефона в формате: 8XXXXXXXXXX (11 цифр)');
+                    phoneInput.focus();
+                    return;
+                }
+                
+                // Собираем данные из формы
+                const formData = {
+                    fullName: document.getElementById('fullName').value,
+                    phone: phoneInput.value,
+                    contractNumber: document.getElementById('contractNumber').value,
+                    operator: document.getElementById('operator').value,
+                    amount: document.getElementById('amount').value,
+                    currency: document.getElementById('currency').value,
+                    tourComposition: tourCompositionTextarea.value
+                };
+                
+                // Проверяем, что все поля заполнены
+                for (const key in formData) {
+                    if (!formData[key]) {
+                        alert('Пожалуйста, заполните все обязательные поля!');
+                        return;
+                    }
+                }
+                
+                // Форматируем данные для отображения
+                const message = `Данные успешно отправлены!\n\nФИО: ${formData.fullName}\nТелефон: ${formData.phone}\nНомер договора: ${formData.contractNumber}\nОператор: ${formData.operator}\nСумма тура: ${formData.amount} ${formData.currency}\n\nСостав тура:\n${formData.tourComposition.substring(0, 200)}${formData.tourComposition.length > 200 ? '...' : ''}\n\nСпасибо за использование нашей формы!`;
+                
+                // Показываем сообщение с данными
+                alert(message);
+                
+                // В реальном приложении здесь был бы код для отправки данных на сервер
+                console.log('Данные формы:', formData);
+                
+                // Сброс стилей после успешной отправки
+                phoneInput.style.borderColor = '#e2e8f0';
+                phoneInput.style.backgroundColor = '#f8fafc';
+            });
+            
+            // Автозаполнение тестовыми данными
+            testDataBtn.addEventListener('click', function() {
+                document.getElementById('fullName').value = 'Петрова Анна Сергеевна';
+                phoneInput.value = '89161234567';
+                document.getElementById('contractNumber').value = 'ТУР-2023-009876';
+                document.getElementById('operator').value = 'Туроператор "Мир путешествий"';
+                document.getElementById('amount').value = '1250.50';
+                document.getElementById('currency').value = 'USD';
+                tourCompositionTextarea.value = 'Тур включает: перелет Москва-Анталья-Москва (авиакомпания "Аэрофлот"), проживание в отеле "Sunrise Resort" 5* (7 ночей), питание "всё включено", трансфер аэропорт-отель-аэропорт, две экскурсии (Обзорная по Антальи и Памуккале), медицинская страховка на весь период пребывания.';
+                
+                // Обновляем счетчик символов
+                tourCompositionTextarea.dispatchEvent(new Event('input'));
+                
+                // Визуальная обратная связь
+                this.textContent = 'Данные заполнены!';
+                this.style.backgroundColor = '#3b82f6';
+                
+                setTimeout(() => {
+                    this.textContent = 'Тестовые данные';
+                    this.style.backgroundColor = '#10b981';
+                }, 1500);
+            });
+            
+            // Очистка формы
+            form.addEventListener('reset', function() {
+                // Сбрасываем стили
+                phoneInput.style.borderColor = '#e2e8f0';
+                phoneInput.style.backgroundColor = '#f8fafc';
+                phoneInput.style.letterSpacing = 'normal';
+                charCounter.textContent = '0/1000 символов';
+                charCounter.className = 'char-counter';
+            });
+            
+            // Оптимизация для мобильных: предотвращаем масштабирование при фокусе на полях ввода
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    // Для iOS - предотвращаем автоматическое увеличение
+                    document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                });
+                
+                input.addEventListener('blur', function() {
+                    // Возвращаем нормальное поведение после потери фокуса
+                    document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
