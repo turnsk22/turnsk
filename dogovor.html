@@ -285,9 +285,47 @@
         .char-counter.error {
             color: #ef4444;
         }
+        
+        /* Сообщение о загрузке */
+        .loading-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .loading-message.show {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
+    <div class="loading-message" id="loadingMessage">
+        <div class="spinner"></div>
+        <p>Инициализация формы...</p>
+    </div>
+    
     <div class="container">
         <div class="header">
             <h1>Форма оформления тура</h1>
@@ -347,7 +385,7 @@
                             <select id="currency" name="currency" required>
                                 <option value="" disabled selected>Выберите валюту</option>
                                 <option value="USD">USD - Доллар США</option>
-                                <option value="EURO">EURO - Евро</option>
+                                <option value="EUR">EUR - Евро</option>
                                 <option value="RUB">RUB - Российский рубль</option>
                             </select>
                         </div>
@@ -382,6 +420,49 @@
             const phoneInput = document.getElementById('phone');
             const tourCompositionTextarea = document.getElementById('tourComposition');
             const charCounter = document.getElementById('charCounter');
+            const loadingMessage = document.getElementById('loadingMessage');
+            
+            // Проверяем, находимся ли мы в Telegram WebApp
+            const isTelegramWebApp = () => {
+                return typeof Telegram !== 'undefined' && Telegram.WebApp;
+            };
+            
+            // Инициализация Telegram WebApp
+            const initTelegramWebApp = () => {
+                if (!isTelegramWebApp()) {
+                    console.log('Telegram WebApp не обнаружен');
+                    loadingMessage.classList.remove('show');
+                    return false;
+                }
+                
+                try {
+                    // Инициализируем WebApp
+                    Telegram.WebApp.ready();
+                    Telegram.WebApp.expand();
+                    Telegram.WebApp.enableClosingConfirmation();
+                    
+                    // Меняем цвет кнопки отправки в зависимости от темы Telegram
+                    const themeParams = Telegram.WebApp.themeParams;
+                    if (themeParams && themeParams.button_color) {
+                        document.querySelector('.submit-btn').style.backgroundColor = themeParams.button_color;
+                    }
+                    
+                    // Показываем версию WebApp для отладки
+                    console.log('Telegram WebApp версия:', Telegram.WebApp.version);
+                    
+                    loadingMessage.classList.remove('show');
+                    return true;
+                } catch (error) {
+                    console.error('Ошибка инициализации Telegram WebApp:', error);
+                    loadingMessage.classList.remove('show');
+                    return false;
+                }
+            };
+            
+            // Запускаем инициализацию
+            setTimeout(() => {
+                initTelegramWebApp();
+            }, 500);
             
             // Маска для номера телефона (формат: 8XXXXXXXXXX)
             phoneInput.addEventListener('input', function(e) {
@@ -398,13 +479,6 @@
                 }
                 
                 e.target.value = value;
-                
-                // Добавляем визуальное форматирование для отображения
-                if (value.length >= 1) {
-                    phoneInput.style.letterSpacing = '0.5px';
-                } else {
-                    phoneInput.style.letterSpacing = 'normal';
-                }
             });
             
             // Валидация телефона при потере фокуса
@@ -451,7 +525,7 @@
                 // Проверяем валидность телефона
                 const phoneValue = phoneInput.value.replace(/\D/g, '');
                 if (phoneValue.length !== 11 || !phoneValue.startsWith('8')) {
-                    alert('Пожалуйста, введите корректный номер телефона в формате: 8XXXXXXXXXX (11 цифр)');
+                    showAlert('Пожалуйста, введите корректный номер телефона в формате: 8XXXXXXXXXX (11 цифр)');
                     phoneInput.focus();
                     return;
                 }
@@ -471,31 +545,38 @@
                 // Проверяем, что все обязательные поля заполнены
                 for (const key in formData) {
                     if (key !== 'timestamp' && !formData[key]) {
-                        alert('Пожалуйста, заполните все обязательные поля!');
+                        showAlert('Пожалуйста, заполните все обязательные поля!');
                         return;
                     }
                 }
                 
                 // Проверяем, что сумма - положительное число
-                if (parseFloat(formData.amount) <= 0) {
-                    alert('Сумма тура должна быть положительным числом!');
+                const amount = parseFloat(formData.amount);
+                if (isNaN(amount) || amount <= 0) {
+                    showAlert('Сумма тура должна быть положительным числом!');
                     document.getElementById('amount').focus();
                     return;
                 }
                 
-                // Проверяем, открыто ли в Telegram WebApp
-                if (window.Telegram && Telegram.WebApp) {
-                    // Отправляем данные в Telegram бота
-                    Telegram.WebApp.sendData(JSON.stringify(formData));
-                    
-                    // Показываем сообщение об успехе
-                    Telegram.WebApp.showAlert('Данные успешно отправлены! Форма будет закрыта.', function() {
-                        // Закрываем веб-приложение
-                        Telegram.WebApp.close();
-                    });
+                // Отправляем данные
+                if (isTelegramWebApp()) {
+                    // Отправляем данные в Telegram бота через WebApp
+                    try {
+                        Telegram.WebApp.sendData(JSON.stringify(formData));
+                        
+                        // Показываем сообщение об успехе
+                        Telegram.WebApp.showAlert('Данные успешно отправлены! Форма будет закрыта.', function() {
+                            // Закрываем веб-приложение
+                            Telegram.WebApp.close();
+                        });
+                    } catch (error) {
+                        console.error('Ошибка отправки данных через Telegram WebApp:', error);
+                        showAlert('Ошибка отправки данных через Telegram. Пожалуйста, попробуйте еще раз.');
+                    }
                 } else {
-                    // Если не в Telegram, показываем данные в alert
-                    const message = `Данные успешно отправлены!\n\nФИО: ${formData.fullName}\nТелефон: ${formData.phone}\nНомер договора: ${formData.contractNumber}\nОператор: ${formData.operator}\nСумма тура: ${formData.amount} ${formData.currency}\n\nСостав тура:\n${formData.tourComposition.substring(0, 200)}${formData.tourComposition.length > 200 ? '...' : ''}\n\nСпасибо за использование нашей формы!`;
+                    // Если не в Telegram, показываем данные и предлагаем скопировать
+                    const message = `Данные формы (для отправки вручную):\n\nФИО: ${formData.fullName}\nТелефон: ${formData.phone}\nНомер договора: ${formData.contractNumber}\nОператор: ${formData.operator}\nСумма тура: ${formData.amount} ${formData.currency}\n\nСостав тура:\n${formData.tourComposition.substring(0, 200)}${formData.tourComposition.length > 200 ? '...' : ''}\n\nЭти данные будут автоматически отправлены при открытии формы в Telegram.`;
+                    
                     alert(message);
                     
                     // Очищаем форму
@@ -512,6 +593,15 @@
                 // Логируем данные в консоль для отладки
                 console.log('Данные формы:', formData);
             });
+            
+            // Функция для показа сообщений
+            function showAlert(message) {
+                if (isTelegramWebApp()) {
+                    Telegram.WebApp.showAlert(message);
+                } else {
+                    alert(message);
+                }
+            }
             
             // Очистка формы
             form.addEventListener('reset', function() {
@@ -536,13 +626,6 @@
                     document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
                 });
             });
-            
-            // Инициализация Telegram WebApp
-            if (window.Telegram && Telegram.WebApp) {
-                Telegram.WebApp.ready();
-                Telegram.WebApp.expand();
-                Telegram.WebApp.enableClosingConfirmation();
-            }
         });
     </script>
 </body>
