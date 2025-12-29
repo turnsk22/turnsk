@@ -362,14 +362,16 @@
                     <div class="select-wrapper">
                         <select id="operator" name="operator" required>
                             <option value="" disabled selected>Выберите оператора</option>
-                            <option value=59>Пегас истик</option>
-                            <option value="Корал">Корал</option>
-                            <option value="Анекс">Анекс</option>
-                            <option value="Фан Сан">Фан Сан</option>
-                            <option value="Глобус Тур">Глобус Тур</option>
-                            <option value="Спектрум">Спектрум</option>
-                            <option value="Спейс Тревел">Спейс Тревел</option>
-                            <option value="Библио Глобус">Библио Глобус</option>
+                            <option value=59>Пегас Туристик</option>
+                            <option value=13>Корал Тревел</option>
+                            <option value=29>Анекс Тур</option>
+                            <option value=38>Фан Сан</option>
+                            <option value=7>Глобус Тур</option>
+                            <option value=62>Спектрум</option>
+                            <option value=63>Спейс Тревел</option>
+                            <option value=58>Библио Глобус</option>
+                            <option value=61>Интурист</option>
+                            <option value=65>Ван Клик Тревел</option>
                         </select>
                     </div>
                     <span class="hint">Выберите туроператора из списка</span>
@@ -377,7 +379,7 @@
                 
                 <!-- Сумма и валюта -->
                 <div class="form-group">
-                    <label for="amount" class="required">Сумма тура</label>
+                    <label for="amount" class="required">Сумма тура в рублях / Валюта тура </label>
                     <div class="amount-row">
                         <div class="sum-col">
                             <input type="number" id="amount" name="amount" min="0" step="0.01" placeholder="10000.00" required>
@@ -386,20 +388,20 @@
                             <select id="currency" name="currency" required>
                                 <option value="" disabled selected>Выберите валюту</option>
                                 <option value="USD">USD - Доллар США</option>
-                                <option value="EUR">EUR - Евро</option>
+                                <option value="EURO">EUR - Евро</option>
                                 <option value="RUB">RUB - Российский рубль</option>
                             </select>
                         </div>
                     </div>
-                    <span class="hint">Укажите полную стоимость тура в выбранной валюте</span>
+                    <span class="hint">Укажите полную стоимость тура в рублях и укахите валюту тура</span>
                 </div>
                 
                 <!-- Состав туристского продукта -->
                 <div class="form-group">
                     <label for="tourComposition" class="required">Состав туристского продукта</label>
-                    <textarea id="tourComposition" name="tourComposition" placeholder="Опишите состав тура: перелет, проживание, питание, экскурсии и т.д." required></textarea>
+                    <textarea id="tourComposition" name="tourComposition" placeholder="Baumancasa Karon Beach Resort, 3*, Карон, Пхукет, 10.02.2027 — 20.02.2027, 10 ночей, Deluxe Room, DBL, BB — Завтрак" required></textarea>
                     <div id="charCounter" class="char-counter">0/1000 символов</div>
-                    <span class="hint">Опишите все элементы тура: перелет, отель, питание, трансферы, экскурсии</span>
+                    <span class="hint">В составе туристского продукта должно быть ровно 2 даты в формате ДД.ММ.ГГГГ</span>
                 </div>
                 
                 <!-- Кнопки -->
@@ -411,7 +413,7 @@
         </div>
         
         <footer>
-            <p>© 2023 Форма оформления тура. Все данные защищены.</p>
+            <p>© 2026 Форма оформления тура. Все данные защищены.</p>
         </footer>
     </div>
 
