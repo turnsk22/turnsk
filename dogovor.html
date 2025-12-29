@@ -286,6 +286,26 @@
             color: #ef4444;
         }
         
+        /* Сообщение об ошибке для дат */
+        .date-error {
+            font-size: 0.75rem;
+            color: #ef4444;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .date-error.show {
+            display: block;
+        }
+        
+        /* Индикатор количества найденных дат */
+        .date-counter {
+            font-size: 0.75rem;
+            color: #3b82f6;
+            text-align: right;
+            margin-top: 5px;
+        }
+        
         /* Сообщение о загрузке */
         .loading-message {
             display: none;
@@ -329,8 +349,8 @@
     
     <div class="container">
         <div class="header">
-            <h1>Форма оформления а</h1>
-            <div class="subtitle">Заполните данные для оформления истической поездки</div>
+            <h1>Форма оформления тура</h1>
+            <div class="subtitle">Заполните данные для оформления туристической поездки</div>
         </div>
         
         <div class="form-container">
@@ -379,7 +399,7 @@
                 
                 <!-- Сумма и валюта -->
                 <div class="form-group">
-                    <label for="amount" class="required">Сумма тура в рублях / Валюта тура </label>
+                    <label for="amount" class="required">Сумма тура в рублях / Валюта тура</label>
                     <div class="amount-row">
                         <div class="sum-col">
                             <input type="number" id="amount" name="amount" min="0" step="0.01" placeholder="10000.00" required>
@@ -393,7 +413,7 @@
                             </select>
                         </div>
                     </div>
-                    <span class="hint">Укажите полную стоимость тура в рублях и укахите валюту тура</span>
+                    <span class="hint">Укажите полную стоимость тура в рублях и укажите валюту тура</span>
                 </div>
                 
                 <!-- Состав туристского продукта -->
@@ -401,7 +421,9 @@
                     <label for="tourComposition" class="required">Состав туристского продукта</label>
                     <textarea id="tourComposition" name="tourComposition" placeholder="Baumancasa Karon Beach Resort, 3*, Карон, Пхукет, 10.02.2027 — 20.02.2027, 10 ночей, Deluxe Room, DBL, BB — Завтрак" required></textarea>
                     <div id="charCounter" class="char-counter">0/1000 символов</div>
-                    <span class="hint">В составе туристского продукта должно быть ровно 2 даты в формате  ДД.ММ.ГГГГ</span>
+                    <div id="dateCounter" class="date-counter">Найдено дат: 0</div>
+                    <div id="dateError" class="date-error">В составе туристского продукта должно быть ровно 2 даты в формате ДД.ММ.ГГГГ</div>
+                    <span class="hint">В составе туристского продукта должно быть ровно 2 даты в формате ДД.ММ.ГГГГ</span>
                 </div>
                 
                 <!-- Кнопки -->
@@ -423,7 +445,53 @@
             const phoneInput = document.getElementById('phone');
             const tourCompositionTextarea = document.getElementById('tourComposition');
             const charCounter = document.getElementById('charCounter');
+            const dateCounter = document.getElementById('dateCounter');
+            const dateError = document.getElementById('dateError');
             const loadingMessage = document.getElementById('loadingMessage');
+            
+            // Функция для проверки количества дат в формате ДД.ММ.ГГГГ
+            function validateDates(text) {
+                // Регулярное выражение для поиска дат в формате ДД.ММ.ГГГГ
+                const dateRegex = /\b(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.(19|20)\d{2}\b/g;
+                const dates = text.match(dateRegex);
+                const count = dates ? dates.length : 0;
+                
+                return {
+                    count: count,
+                    dates: dates || [],
+                    isValid: count === 2
+                };
+            }
+            
+            // Функция для обновления счетчика дат
+            function updateDateCounter(text) {
+                const validationResult = validateDates(text);
+                dateCounter.textContent = `Найдено дат: ${validationResult.count}`;
+                
+                // Визуальная обратная связь
+                if (validationResult.count === 2) {
+                    dateCounter.style.color = '#10b981';
+                    dateError.classList.remove('show');
+                    tourCompositionTextarea.style.borderColor = '#10b981';
+                } else if (validationResult.count > 2) {
+                    dateCounter.style.color = '#f59e0b';
+                    dateError.textContent = `Найдено ${validationResult.count} дат. Должно быть ровно 2 даты в формате ДД.ММ.ГГГГ`;
+                    dateError.classList.add('show');
+                    tourCompositionTextarea.style.borderColor = '#f59e0b';
+                } else if (validationResult.count > 0) {
+                    dateCounter.style.color = '#f59e0b';
+                    dateError.textContent = `Найдена только ${validationResult.count} дата. Должно быть ровно 2 даты в формате ДД.ММ.ГГГГ`;
+                    dateError.classList.add('show');
+                    tourCompositionTextarea.style.borderColor = '#f59e0b';
+                } else {
+                    dateCounter.style.color = '#ef4444';
+                    dateError.textContent = 'Даты в формате ДД.ММ.ГГГГ не найдены. Должно быть ровно 2 даты';
+                    dateError.classList.add('show');
+                    tourCompositionTextarea.style.borderColor = '#ef4444';
+                }
+                
+                return validationResult;
+            }
             
             // Проверяем, находимся ли мы в Telegram WebApp
             const isTelegramWebApp = () => {
@@ -504,6 +572,9 @@
                 const length = this.value.length;
                 charCounter.textContent = `${length}/1000 символов`;
                 
+                // Проверяем даты
+                updateDateCounter(this.value);
+                
                 // Изменяем цвет в зависимости от количества символов
                 if (length > 800) {
                     charCounter.className = 'char-counter warning';
@@ -533,6 +604,16 @@
                     return;
                 }
                 
+                // Проверяем количество дат
+                const tourCompositionValue = tourCompositionTextarea.value.trim();
+                const dateValidationResult = validateDates(tourCompositionValue);
+                
+                if (!dateValidationResult.isValid) {
+                    showAlert(`В составе туристского продукта должно быть ровно 2 даты в формате ДД.ММ.ГГГГ\n\nНайдено дат: ${dateValidationResult.count}\n\nПример правильного формата: 10.02.2027 — 20.02.2027`);
+                    tourCompositionTextarea.focus();
+                    return;
+                }
+                
                 // Собираем данные из формы
                 const formData = {
                     fullName: document.getElementById('fullName').value.trim(),
@@ -541,13 +622,14 @@
                     operator: document.getElementById('operator').value,
                     amount: document.getElementById('amount').value,
                     currency: document.getElementById('currency').value,
-                    tourComposition: tourCompositionTextarea.value.trim(),
+                    tourComposition: tourCompositionValue,
+                    dates: dateValidationResult.dates,
                     timestamp: new Date().toISOString()
                 };
                 
                 // Проверяем, что все обязательные поля заполнены
                 for (const key in formData) {
-                    if (key !== 'timestamp' && !formData[key]) {
+                    if (key !== 'timestamp' && key !== 'dates' && !formData[key]) {
                         showAlert('Пожалуйста, заполните все обязательные поля!');
                         return;
                     }
@@ -578,7 +660,7 @@
                     }
                 } else {
                     // Если не в Telegram, показываем данные и предлагаем скопировать
-                    const message = `Данные формы (для отправки вручную):\n\nФИО: ${formData.fullName}\nТелефон: ${formData.phone}\nНомер договора: ${formData.contractNumber}\nОператор: ${formData.operator}\nСумма тура: ${formData.amount} ${formData.currency}\n\nСостав тура:\n${formData.tourComposition.substring(0, 200)}${formData.tourComposition.length > 200 ? '...' : ''}\n\nЭти данные будут автоматически отправлены при открытии формы в Telegram.`;
+                    const message = `Данные формы (для отправки вручную):\n\nФИО: ${formData.fullName}\nТелефон: ${formData.phone}\nНомер договора: ${formData.contractNumber}\nОператор: ${formData.operator}\nСумма тура: ${formData.amount} ${formData.currency}\nНайденные даты: ${formData.dates.join(', ')}\n\nСостав тура:\n${formData.tourComposition.substring(0, 200)}${formData.tourComposition.length > 200 ? '...' : ''}\n\nЭти данные будут автоматически отправлены при открытии формы в Telegram.`;
                     
                     alert(message);
                     
@@ -588,9 +670,12 @@
                     // Сбрасываем стили
                     phoneInput.style.borderColor = '#e2e8f0';
                     phoneInput.style.backgroundColor = '#f8fafc';
-                    phoneInput.style.letterSpacing = 'normal';
+                    tourCompositionTextarea.style.borderColor = '#e2e8f0';
                     charCounter.textContent = '0/1000 символов';
                     charCounter.className = 'char-counter';
+                    dateCounter.textContent = 'Найдено дат: 0';
+                    dateCounter.style.color = '#3b82f6';
+                    dateError.classList.remove('show');
                 }
                 
                 // Логируем данные в консоль для отладки
@@ -614,6 +699,10 @@
                 phoneInput.style.letterSpacing = 'normal';
                 charCounter.textContent = '0/1000 символов';
                 charCounter.className = 'char-counter';
+                dateCounter.textContent = 'Найдено дат: 0';
+                dateCounter.style.color = '#3b82f6';
+                dateError.classList.remove('show');
+                tourCompositionTextarea.style.borderColor = '#e2e8f0';
             });
             
             // Оптимизация для мобильных: предотвращаем масштабирование при фокусе на полях ввода
@@ -629,6 +718,9 @@
                     document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
                 });
             });
+            
+            // Инициализация счетчика дат при загрузке
+            updateDateCounter(tourCompositionTextarea.value);
         });
     </script>
 </body>
