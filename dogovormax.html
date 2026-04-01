@@ -1,1 +1,731 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Форма оформления тура</title>
+    <style>
+        /* Сброс стилей и базовая настройка */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: #f8fafd;
+            color: #333;
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        /* Контейнер формы */
+        .container {
+            max-width: 100%;
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Шапка */
+        .header {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 20px 15px;
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 0;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        /* Форма */
+        .form-container {
+            background-color: white;
+            padding: 20px 15px;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            flex-grow: 1;
+        }
+        
+        /* Группы полей */
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1e40af;
+            font-size: 0.95rem;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        /* Поля ввода */
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background-color: #f8fafc;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            background-color: white;
+        }
+        
+        /* Особые стили для textarea */
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        /* Строка с суммой и валютой */
+        .amount-row {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        @media (min-width: 400px) {
+            .amount-row {
+                flex-direction: row;
+            }
+            
+            .amount-row .sum-col {
+                flex: 2;
+            }
+            
+            .amount-row .currency-col {
+                flex: 1;
+            }
+        }
+        
+        /* Кнопки */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        @media (min-width: 500px) {
+            .button-group {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        
+        button {
+            padding: 16px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .submit-btn {
+            background-color: #3b82f6;
+            color: white;
+            box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
+        }
+        
+        .submit-btn:active {
+            background-color: #1d4ed8;
+            transform: translateY(2px);
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
+        }
+        
+        .reset-btn {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .reset-btn:active {
+            background-color: #e2e8f0;
+        }
+        
+        /* Подсказки */
+        .hint {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 6px;
+            display: block;
+            line-height: 1.4;
+        }
+        
+        /* Футер */
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            padding: 15px 0;
+        }
+        
+        /* Улучшения для мобильных устройств */
+        @media (max-width: 350px) {
+            body {
+                font-size: 15px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .header, .form-container {
+                padding: 15px 12px;
+            }
+            
+            button {
+                padding: 14px 18px;
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Для планшетов и больших экранов */
+        @media (min-width: 768px) {
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 700px;
+                min-height: auto;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+            
+            .header {
+                padding: 25px 30px;
+            }
+            
+            .form-container {
+                padding: 30px;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Улучшение для select */
+        .select-wrapper {
+            position: relative;
+        }
+        
+        .select-wrapper::after {
+            content: "▼";
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+            font-size: 0.8rem;
+        }
+        
+        /* Счетчик символов для textarea */
+        .char-counter {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-align: right;
+            margin-top: 5px;
+        }
+        
+        .char-counter.warning {
+            color: #f59e0b;
+        }
+        
+        .char-counter.error {
+            color: #ef4444;
+        }
+        
+        /* Сообщение об ошибке для дат */
+        .date-error {
+            font-size: 0.75rem;
+            color: #ef4444;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .date-error.show {
+            display: block;
+        }
+        
+        /* Индикатор количества найденных дат */
+        .date-counter {
+            font-size: 0.75rem;
+            color: #3b82f6;
+            text-align: right;
+            margin-top: 5px;
+        }
+        
+        /* Сообщение о загрузке */
+        .loading-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .loading-message.show {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <script src="https://st.max.ru/js/max-web-app.js"></script>
 
+</head>
+<body>
+    <div class="loading-message" id="loadingMessage">
+        <div class="spinner"></div>
+        <p>Инициализация формы...</p>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Форма оформления тура</h1>
+            <div class="subtitle">Заполните данные для оформления туристической поездки</div>
+        </div>
+        
+        <div class="form-container">
+            <form id="tourForm">
+                <!-- ФИО -->
+                <div class="form-group">
+                    <label for="fullName" class="required">Фамилия, Имя, Отчество</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Иванов Иван Иванович" required>
+                    <span class="hint">Введите полностью ваше ФИО</span>
+                </div>
+                
+                <!-- Телефон -->
+                <div class="form-group">
+                    <label for="phone" class="required">Номер телефона</label>
+                    <input type="tel" id="phone" name="phone" placeholder="8XXXXXXXXXX" required maxlength="11">
+                    <span class="hint">Формат: 8XXXXXXXXXX (11 цифр, начинается с 8)</span>
+                </div>
+                
+                <!-- Номер договора -->
+                <div class="form-group">
+                    <label for="contractNumber" class="required">Номер договора</label>
+                    <input type="text" id="contractNumber" name="contractNumber" placeholder="10294651" required>
+                    <span class="hint">Пример: 10294651</span>
+                </div>
+                
+                <!-- Оператор -->
+                <div class="form-group">
+                    <label for="operator" class="required">Оператор</label>
+                    <div class="select-wrapper">
+                        <select id="operator" name="operator" required>
+                            <option value="" disabled selected>Выберите оператора</option>
+                            <option value=59>Пегас Туристик</option>
+                            <option value=13>Корал Тревел</option>
+                            <option value=29>Анекс Тур</option>
+                            <option value=38>Фан Сан</option>
+                            <option value=7>Глобус Тур</option>
+                            <option value=62>Спектрум</option>
+                            <option value=63>Спейс Тревел</option>
+                            <option value=58>Библио Глобус</option>
+                            <option value=61>Интурист</option>
+                            <option value=65>Ван Клик Тревел</option>
+                            <option value=57>Русский Экспресс</option>
+                            <option value=67>Кристал Бей</option>
+                            
+                        </select>
+                    </div>
+                    <span class="hint">Выберите туроператора из списка</span>
+                </div>
+                
+                <!-- Сумма и валюта -->
+                <div class="form-group">
+                    <label for="amount" class="required">Сумма тура в рублях / Валюта тура</label>
+                    <div class="amount-row">
+                        <div class="sum-col">
+                            <input type="number" id="amount" name="amount" min="0" step="0.01" placeholder="10000.00" required>
+                        </div>
+                        <div class="currency-col select-wrapper">
+                            <select id="currency" name="currency" required>
+                                <option value="" disabled selected>Выберите валюту</option>
+                                <option value="USD">USD - Доллар США</option>
+                                <option value="EURO">EUR - Евро</option>
+                                <option value="RUB">RUB - Российский рубль</option>
+                            </select>
+                        </div>
+                    </div>
+                    <span class="hint">Укажите полную стоимость тура в рублях и укажите валюту тура</span>
+                </div>
+                
+                <!-- Состав туристского продукта -->
+                <div class="form-group">
+                    <label for="tourComposition" class="required">Состав туристского продукта</label>
+                    <textarea id="tourComposition" name="tourComposition" placeholder="Baumancasa Karon Beach Resort, 3*, Карон, Пхукет, 10.02.2027 — 20.02.2027, 10 ночей, Deluxe Room, DBL, BB — Завтрак" required></textarea>
+                    <div id="charCounter" class="char-counter">0/1000 символов</div>
+                    <div id="dateCounter" class="date-counter">Найдено дат: 0</div>
+                    <div id="dateError" class="date-error">В составе туристского продукта должно быть ровно 2 даты в формате ДД.ММ.ГГГГ</div>
+                    <span class="hint">В составе туристского продукта должно быть ровно 2 даты в формате ДД.ММ.ГГГГ</span>
+                </div>
+                
+                <!-- Кнопки -->
+                <div class="button-group">
+                    <button type="reset" class="reset-btn">Очистить форму</button>
+                    <button type="submit" class="submit-btn">Отправить данные</button>
+                </div>
+            </form>
+        </div>
+        
+        <footer>
+            <p>© 2026 Форма оформления тура. Все данные защищены.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('tourForm');
+            const phoneInput = document.getElementById('phone');
+            const tourCompositionTextarea = document.getElementById('tourComposition');
+            const charCounter = document.getElementById('charCounter');
+            const dateCounter = document.getElementById('dateCounter');
+            const dateError = document.getElementById('dateError');
+            const loadingMessage = document.getElementById('loadingMessage');
+            
+            // Функция для проверки количества дат в формате ДД.ММ.ГГГГ
+            function validateDates(text) {
+                // Регулярное выражение для поиска дат в формате ДД.ММ.ГГГГ
+                const dateRegex = /\b(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.(19|20)\d{2}\b/g;
+                const dates = text.match(dateRegex);
+                const count = dates ? dates.length : 0;
+                
+                return {
+                    count: count,
+                    dates: dates || [],
+                    isValid: count === 2
+                };
+            }
+            
+            // Функция для обновления счетчика дат
+            function updateDateCounter(text) {
+                const validationResult = validateDates(text);
+                dateCounter.textContent = `Найдено дат: ${validationResult.count}`;
+                
+                // Визуальная обратная связь
+                if (validationResult.count === 2) {
+                    dateCounter.style.color = '#10b981';
+                    dateError.classList.remove('show');
+                    tourCompositionTextarea.style.borderColor = '#10b981';
+                } else if (validationResult.count > 2) {
+                    dateCounter.style.color = '#f59e0b';
+                    dateError.textContent = `Найдено ${validationResult.count} дат. Должно быть ровно 2 даты в формате ДД.ММ.ГГГГ`;
+                    dateError.classList.add('show');
+                    tourCompositionTextarea.style.borderColor = '#f59e0b';
+                } else if (validationResult.count > 0) {
+                    dateCounter.style.color = '#f59e0b';
+                    dateError.textContent = `Найдена только ${validationResult.count} дата. Должно быть ровно 2 даты в формате ДД.ММ.ГГГГ`;
+                    dateError.classList.add('show');
+                    tourCompositionTextarea.style.borderColor = '#f59e0b';
+                } else {
+                    dateCounter.style.color = '#ef4444';
+                    dateError.textContent = 'Даты в формате ДД.ММ.ГГГГ не найдены. Должно быть ровно 2 даты';
+                    dateError.classList.add('show');
+                    tourCompositionTextarea.style.borderColor = '#ef4444';
+                }
+                
+                return validationResult;
+            }
+            
+            // Проверяем, находимся ли мы в MAX WebApp
+            const isMaxWebApp = () => {
+                return typeof Window !== 'undefined' && Window.WebApp;
+            };
+            
+            // Инициализация Window WebApp
+            const initMaxWebApp = () => {
+                if (!isMaxWebApp()) {
+                    console.log('Max WebApp не обнаружен');
+                    loadingMessage.classList.remove('show');
+                    return false;
+                }
+                
+                try {
+                    // Инициализируем WebApp
+                    Window.WebApp.ready();
+                    Telegram.WebApp.expand();
+                    Telegram.WebApp.enableClosingConfirmation();
+                    
+                    // Меняем цвет кнопки отправки в зависимости от темы Telegram
+                    const themeParams = Telegram.WebApp.themeParams;
+                    if (themeParams && themeParams.button_color) {
+                        document.querySelector('.submit-btn').style.backgroundColor = themeParams.button_color;
+                    }
+                    
+                    // Показываем версию WebApp для отладки
+                    console.log('Telegram WebApp версия:', Telegram.WebApp.version);
+                    
+                    loadingMessage.classList.remove('show');
+                    return true;
+                } catch (error) {
+                    console.error('Ошибка инициализации Telegram WebApp:', error);
+                    loadingMessage.classList.remove('show');
+                    return false;
+                }
+            };
+            
+            // Запускаем инициализацию
+            setTimeout(() => {
+                initTelegramWebApp();
+            }, 500);
+            
+            // Маска для номера телефона (формат: 8XXXXXXXXXX)
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                
+                // Ограничиваем 11 цифрами
+                if (value.length > 11) {
+                    value = value.substring(0, 11);
+                }
+                
+                // Убедимся, что номер начинается с 8
+                if (value.length > 0 && !value.startsWith('8')) {
+                    value = '8' + value.substring(1);
+                }
+                
+                e.target.value = value;
+            });
+            
+            // Валидация телефона при потере фокуса
+            phoneInput.addEventListener('blur', function() {
+                const value = this.value.replace(/\D/g, '');
+                if (value.length === 11 && value.startsWith('8')) {
+                    this.style.borderColor = '#10b981';
+                    this.style.backgroundColor = '#f0fdf4';
+                } else if (value.length > 0) {
+                    this.style.borderColor = '#ef4444';
+                    this.style.backgroundColor = '#fef2f2';
+                } else {
+                    this.style.borderColor = '#e2e8f0';
+                    this.style.backgroundColor = '#f8fafc';
+                }
+            });
+            
+            // Счетчик символов для поля "Состав туристского продукта"
+            tourCompositionTextarea.addEventListener('input', function() {
+                const length = this.value.length;
+                charCounter.textContent = `${length}/1000 символов`;
+                
+                // Проверяем даты
+                updateDateCounter(this.value);
+                
+                // Изменяем цвет в зависимости от количества символов
+                if (length > 800) {
+                    charCounter.className = 'char-counter warning';
+                } else if (length > 950) {
+                    charCounter.className = 'char-counter error';
+                } else {
+                    charCounter.className = 'char-counter';
+                }
+                
+                // Ограничиваем ввод 1000 символами
+                if (length > 1000) {
+                    this.value = this.value.substring(0, 1000);
+                    charCounter.textContent = '1000/1000 символов (превышен лимит)';
+                    charCounter.className = 'char-counter error';
+                }
+            });
+            
+            // Обработка отправки формы
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                // Проверяем валидность телефона
+                const phoneValue = phoneInput.value.replace(/\D/g, '');
+                if (phoneValue.length !== 11 || !phoneValue.startsWith('8')) {
+                    showAlert('Пожалуйста, введите корректный номер телефона в формате: 8XXXXXXXXXX (11 цифр)');
+                    phoneInput.focus();
+                    return;
+                }
+                
+                // Проверяем количество дат
+                const tourCompositionValue = tourCompositionTextarea.value.trim();
+                const dateValidationResult = validateDates(tourCompositionValue);
+                
+                if (!dateValidationResult.isValid) {
+                    showAlert(`В составе туристского продукта должно быть ровно 2 даты в формате ДД.ММ.ГГГГ\n\nНайдено дат: ${dateValidationResult.count}\n\nПример правильного формата: 10.02.2027 — 20.02.2027`);
+                    tourCompositionTextarea.focus();
+                    return;
+                }
+                
+                // Собираем данные из формы
+                const formData = {
+                    fullName: document.getElementById('fullName').value.trim(),
+                    phone: phoneInput.value,
+                    contractNumber: document.getElementById('contractNumber').value.trim(),
+                    operator: document.getElementById('operator').value,
+                    amount: document.getElementById('amount').value,
+                    currency: document.getElementById('currency').value,
+                    tourComposition: tourCompositionValue,
+                    dates: dateValidationResult.dates,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Проверяем, что все обязательные поля заполнены
+                for (const key in formData) {
+                    if (key !== 'timestamp' && key !== 'dates' && !formData[key]) {
+                        showAlert('Пожалуйста, заполните все обязательные поля!');
+                        return;
+                    }
+                }
+                
+                // Проверяем, что сумма - положительное число
+                const amount = parseFloat(formData.amount);
+                if (isNaN(amount) || amount <= 0) {
+                    showAlert('Сумма тура должна быть положительным числом!');
+                    document.getElementById('amount').focus();
+                    return;
+                }
+                
+                // Отправляем данные
+                if (isTelegramWebApp()) {
+                    // Отправляем данные в Telegram бота через WebApp
+                    try {
+                        Telegram.WebApp.sendData(JSON.stringify(formData));
+                        
+                        // Показываем сообщение об успехе
+                        Telegram.WebApp.showAlert('Данные успешно отправлены! Форма будет закрыта.', function() {
+                            // Закрываем веб-приложение
+                            Telegram.WebApp.close();
+                        });
+                    } catch (error) {
+                        console.error('Ошибка отправки данных через Telegram WebApp:', error);
+                        showAlert('Ошибка отправки данных через Telegram. Пожалуйста, попробуйте еще раз.');
+                    }
+                } else {
+                    // Если не в Telegram, показываем данные и предлагаем скопировать
+                    const message = `Данные формы (для отправки вручную):\n\nФИО: ${formData.fullName}\nТелефон: ${formData.phone}\nНомер договора: ${formData.contractNumber}\nОператор: ${formData.operator}\nСумма тура: ${formData.amount} ${formData.currency}\nНайденные даты: ${formData.dates.join(', ')}\n\nСостав тура:\n${formData.tourComposition.substring(0, 200)}${formData.tourComposition.length > 200 ? '...' : ''}\n\nЭти данные будут автоматически отправлены при открытии формы в Telegram.`;
+                    
+                    alert(message);
+                    
+                    // Очищаем форму
+                    form.reset();
+                    
+                    // Сбрасываем стили
+                    phoneInput.style.borderColor = '#e2e8f0';
+                    phoneInput.style.backgroundColor = '#f8fafc';
+                    tourCompositionTextarea.style.borderColor = '#e2e8f0';
+                    charCounter.textContent = '0/1000 символов';
+                    charCounter.className = 'char-counter';
+                    dateCounter.textContent = 'Найдено дат: 0';
+                    dateCounter.style.color = '#3b82f6';
+                    dateError.classList.remove('show');
+                }
+                
+                // Логируем данные в консоль для отладки
+                console.log('Данные формы:', formData);
+            });
+            
+            // Функция для показа сообщений
+            function showAlert(message) {
+                if (isTelegramWebApp()) {
+                    Telegram.WebApp.showAlert(message);
+                } else {
+                    alert(message);
+                }
+            }
+            
+            // Очистка формы
+            form.addEventListener('reset', function() {
+                // Сбрасываем стили
+                phoneInput.style.borderColor = '#e2e8f0';
+                phoneInput.style.backgroundColor = '#f8fafc';
+                phoneInput.style.letterSpacing = 'normal';
+                charCounter.textContent = '0/1000 символов';
+                charCounter.className = 'char-counter';
+                dateCounter.textContent = 'Найдено дат: 0';
+                dateCounter.style.color = '#3b82f6';
+                dateError.classList.remove('show');
+                tourCompositionTextarea.style.borderColor = '#e2e8f0';
+            });
+            
+            // Оптимизация для мобильных: предотвращаем масштабирование при фокусе на полях ввода
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    // Для iOS - предотвращаем автоматическое увеличение
+                    document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                });
+                
+                input.addEventListener('blur', function() {
+                    // Возвращаем нормальное поведение после потери фокуса
+                    document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
+                });
+            });
+            
+            // Инициализация счетчика дат при загрузке
+            updateDateCounter(tourCompositionTextarea.value);
+        });
+    </script>
+</body>
+</html>
