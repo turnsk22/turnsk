@@ -1,62 +1,549 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>Форма отправки данных</title>
-    <script src="https://st.max.ru/js/max-web-app.js"></script>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Форма оформления тура</title>
+    <script src="https://st.max.ru/js/max-web-app.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: #f8fafd;
+            color: #333;
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+            font-size: 16px;
+        }
+        .container {
+            max-width: 100%;
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 20px 15px;
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 0;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px 15px;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            flex-grow: 1;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1e40af;
+            font-size: 0.95rem;
+        }
+        .required::after {
+            content: " *";
+            color: #ef4444;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background-color: #f8fafc;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            background-color: white;
+        }
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        .amount-row {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        @media (min-width: 400px) {
+            .amount-row {
+                flex-direction: row;
+            }
+            .amount-row .sum-col {
+                flex: 2;
+            }
+            .amount-row .currency-col {
+                flex: 1;
+            }
+        }
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        @media (min-width: 500px) {
+            .button-group {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        button {
+            padding: 16px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            flex: 1;
+        }
+        .submit-btn {
+            background-color: #3b82f6;
+            color: white;
+            box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
+        }
+        .submit-btn:active {
+            background-color: #1d4ed8;
+            transform: translateY(2px);
+        }
+        .reset-btn {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 2px solid #e2e8f0;
+        }
+        .reset-btn:active {
+            background-color: #e2e8f0;
+        }
+        .hint {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 6px;
+            display: block;
+        }
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            padding: 15px 0;
+        }
+        @media (min-width: 768px) {
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            .container {
+                max-width: 700px;
+                min-height: auto;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                padding: 25px 30px;
+            }
+            .form-container {
+                padding: 30px;
+            }
+            h1 {
+                font-size: 1.75rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+        .select-wrapper {
+            position: relative;
+        }
+        .select-wrapper::after {
+            content: "▼";
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+            font-size: 0.8rem;
+        }
+        .char-counter {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-align: right;
+            margin-top: 5px;
+        }
+        .char-counter.warning {
+            color: #f59e0b;
+        }
+        .char-counter.error {
+            color: #ef4444;
+        }
+        .date-error {
+            font-size: 0.75rem;
+            color: #ef4444;
+            margin-top: 5px;
+            display: none;
+        }
+        .date-error.show {
+            display: block;
+        }
+        .date-counter {
+            font-size: 0.75rem;
+            color: #3b82f6;
+            text-align: right;
+            margin-top: 5px;
+        }
+        .loading-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .loading-message.show {
+            display: flex;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        #status {
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
-    <h2>Заполните форму</h2>
-    <form id="dataForm">
-        <label for="name">Имя:</label><br>
-        <input type="text" id="name" name="name" required><br><br>
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
-        <button type="button" id="submitBtn">Отправить данные</button>
-    </form>
-    <div id="status" style="margin-top: 1rem;"></div>
+    <div class="loading-message" id="loadingMessage">
+        <div class="spinner"></div>
+        <p>Инициализация формы...</p>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>Форма оформления тура</h1>
+            <div class="subtitle">Заполните данные для оформления туристической поездки</div>
+        </div>
+        <div class="form-container">
+            <form id="tourForm">
+                <div class="form-group">
+                    <label for="fullName" class="required">Фамилия, Имя, Отчество</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Иванов Иван Иванович" required>
+                    <span class="hint">Введите полностью ваше ФИО</span>
+                </div>
+                <div class="form-group">
+                    <label for="phone" class="required">Номер телефона</label>
+                    <input type="tel" id="phone" name="phone" placeholder="8XXXXXXXXXX" required maxlength="11">
+                    <span class="hint">Формат: 8XXXXXXXXXX (11 цифр, начинается с 8)</span>
+                </div>
+                <div class="form-group">
+                    <label for="contractNumber" class="required">Номер договора</label>
+                    <input type="text" id="contractNumber" name="contractNumber" placeholder="10294651" required>
+                    <span class="hint">Пример: 10294651</span>
+                </div>
+                <div class="form-group">
+                    <label for="operator" class="required">Оператор</label>
+                    <div class="select-wrapper">
+                        <select id="operator" name="operator" required>
+                            <option value="" disabled selected>Выберите оператора</option>
+                            <option value="59">Пегас Туристик</option>
+                            <option value="13">Корал Тревел</option>
+                            <option value="29">Анекс Тур</option>
+                            <option value="38">Фан Сан</option>
+                            <option value="7">Глобус Тур</option>
+                            <option value="62">Спектрум</option>
+                            <option value="63">Спейс Тревел</option>
+                            <option value="58">Библио Глобус</option>
+                            <option value="61">Интурист</option>
+                            <option value="65">Ван Клик Тревел</option>
+                            <option value="57">Русский Экспресс</option>
+                            <option value="67">Кристал Бей</option>
+                        </select>
+                    </div>
+                    <span class="hint">Выберите туроператора из списка</span>
+                </div>
+                <div class="form-group">
+                    <label for="amount" class="required">Сумма тура в рублях / Валюта тура</label>
+                    <div class="amount-row">
+                        <div class="sum-col">
+                            <input type="number" id="amount" name="amount" min="0" step="0.01" placeholder="10000.00" required>
+                        </div>
+                        <div class="currency-col select-wrapper">
+                            <select id="currency" name="currency" required>
+                                <option value="" disabled selected>Выберите валюту</option>
+                                <option value="USD">USD - Доллар США</option>
+                                <option value="EUR">EUR - Евро</option>
+                                <option value="RUB">RUB - Российский рубль</option>
+                            </select>
+                        </div>
+                    </div>
+                    <span class="hint">Укажите полную стоимость тура в рублях и валюту тура</span>
+                </div>
+                <div class="form-group">
+                    <label for="tourComposition" class="required">Состав туристского продукта</label>
+                    <textarea id="tourComposition" name="tourComposition" placeholder="Baumancasa Karon Beach Resort, 3*, Карон, Пхукет, 10.02.2027 — 20.02.2027, 10 ночей, Deluxe Room, DBL, BB — Завтрак" required></textarea>
+                    <div id="charCounter" class="char-counter">0/1000 символов</div>
+                    <div id="dateCounter" class="date-counter">Найдено дат: 0</div>
+                    <div id="dateError" class="date-error">В составе туристского продукта должно быть ровно 2 даты в формате ДД.ММ.ГГГГ</div>
+                    <span class="hint">В составе туристского продукта должно быть ровно 2 даты в формате ДД.ММ.ГГГГ</span>
+                </div>
+                <div class="button-group">
+                    <button type="reset" class="reset-btn">Очистить форму</button>
+                    <button type="submit" class="submit-btn">Отправить данные</button>
+                </div>
+            </form>
+            <div id="status"></div>
+        </div>
+        <footer>
+            <p>© 2026 Форма оформления тура. Все данные защищены.</p>
+        </footer>
+    </div>
 
     <script>
+        // --- MAX Bridge инициализация ---
         const webApp = window.WebApp;
-        if (webApp) webApp.ready();
+        if (webApp) {
+            webApp.ready();
+            webApp.enableClosingConfirmation();
+        }
 
-        document.getElementById('submitBtn').addEventListener('click', async () => {
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            if (!name || !email) {
-                alert('Заполните оба поля');
+        // --- Вспомогательные функции ---
+        function validateDates(text) {
+            const dateRegex = /\b(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.(19|20)\d{2}\b/g;
+            const dates = text.match(dateRegex);
+            const count = dates ? dates.length : 0;
+            return { count, dates: dates || [], isValid: count === 2 };
+        }
+
+        function updateDateCounter(text) {
+            const result = validateDates(text);
+            const dateCounter = document.getElementById('dateCounter');
+            const dateError = document.getElementById('dateError');
+            const textarea = document.getElementById('tourComposition');
+            dateCounter.textContent = `Найдено дат: ${result.count}`;
+            if (result.count === 2) {
+                dateCounter.style.color = '#10b981';
+                dateError.classList.remove('show');
+                textarea.style.borderColor = '#10b981';
+            } else if (result.count > 2) {
+                dateCounter.style.color = '#f59e0b';
+                dateError.textContent = `Найдено ${result.count} дат. Должно быть ровно 2 даты в формате ДД.ММ.ГГГГ`;
+                dateError.classList.add('show');
+                textarea.style.borderColor = '#f59e0b';
+            } else if (result.count > 0) {
+                dateCounter.style.color = '#f59e0b';
+                dateError.textContent = `Найдена только ${result.count} дата. Должно быть ровно 2 даты в формате ДД.ММ.ГГГГ`;
+                dateError.classList.add('show');
+                textarea.style.borderColor = '#f59e0b';
+            } else {
+                dateCounter.style.color = '#ef4444';
+                dateError.textContent = 'Даты в формате ДД.ММ.ГГГГ не найдены. Должно быть ровно 2 даты';
+                dateError.classList.add('show');
+                textarea.style.borderColor = '#ef4444';
+            }
+            return result;
+        }
+
+        // --- Элементы формы ---
+        const form = document.getElementById('tourForm');
+        const phoneInput = document.getElementById('phone');
+        const tourCompositionTextarea = document.getElementById('tourComposition');
+        const charCounter = document.getElementById('charCounter');
+        const statusDiv = document.getElementById('status');
+        const loadingMessage = document.getElementById('loadingMessage');
+
+        // Скрываем загрузку после инициализации
+        setTimeout(() => { loadingMessage.classList.remove('show'); }, 500);
+
+        // Маска телефона
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.substring(0, 11);
+            if (value.length > 0 && !value.startsWith('8')) value = '8' + value.substring(1);
+            e.target.value = value;
+        });
+        phoneInput.addEventListener('blur', function() {
+            const value = this.value.replace(/\D/g, '');
+            if (value.length === 11 && value.startsWith('8')) {
+                this.style.borderColor = '#10b981';
+                this.style.backgroundColor = '#f0fdf4';
+            } else if (value.length > 0) {
+                this.style.borderColor = '#ef4444';
+                this.style.backgroundColor = '#fef2f2';
+            } else {
+                this.style.borderColor = '#e2e8f0';
+                this.style.backgroundColor = '#f8fafc';
+            }
+        });
+
+        // Счётчик символов и дат
+        tourCompositionTextarea.addEventListener('input', function() {
+            const length = this.value.length;
+            charCounter.textContent = `${length}/1000 символов`;
+            updateDateCounter(this.value);
+            if (length > 800) charCounter.className = 'char-counter warning';
+            else if (length > 950) charCounter.className = 'char-counter error';
+            else charCounter.className = 'char-counter';
+            if (length > 1000) {
+                this.value = this.value.substring(0, 1000);
+                charCounter.textContent = '1000/1000 символов (превышен лимит)';
+                charCounter.className = 'char-counter error';
+            }
+        });
+
+        // Сброс стилей при reset
+        form.addEventListener('reset', function() {
+            phoneInput.style.borderColor = '#e2e8f0';
+            phoneInput.style.backgroundColor = '#f8fafc';
+            charCounter.textContent = '0/1000 символов';
+            charCounter.className = 'char-counter';
+            const dateCounter = document.getElementById('dateCounter');
+            dateCounter.textContent = 'Найдено дат: 0';
+            dateCounter.style.color = '#3b82f6';
+            document.getElementById('dateError').classList.remove('show');
+            tourCompositionTextarea.style.borderColor = '#e2e8f0';
+            statusDiv.innerHTML = '';
+        });
+
+        // Отправка формы
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // --- Валидация ---
+            const phoneValue = phoneInput.value.replace(/\D/g, '');
+            if (phoneValue.length !== 11 || !phoneValue.startsWith('8')) {
+                alert('Пожалуйста, введите корректный номер телефона в формате: 8XXXXXXXXXX (11 цифр)');
+                phoneInput.focus();
                 return;
             }
 
+            const tourCompositionValue = tourCompositionTextarea.value.trim();
+            const dateValidation = validateDates(tourCompositionValue);
+            if (!dateValidation.isValid) {
+                alert(`В составе туристского продукта должно быть ровно 2 даты в формате ДД.ММ.ГГГГ\n\nНайдено дат: ${dateValidation.count}`);
+                tourCompositionTextarea.focus();
+                return;
+            }
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const contractNumber = document.getElementById('contractNumber').value.trim();
+            const operator = document.getElementById('operator').value;
+            const amount = document.getElementById('amount').value;
+            const currency = document.getElementById('currency').value;
+
+            if (!fullName || !contractNumber || !operator || !amount || !currency) {
+                alert('Пожалуйста, заполните все обязательные поля!');
+                return;
+            }
+
+            const amountNum = parseFloat(amount);
+            if (isNaN(amountNum) || amountNum <= 0) {
+                alert('Сумма тура должна быть положительным числом!');
+                document.getElementById('amount').focus();
+                return;
+            }
+
+            // --- Подготовка данных для отправки ---
             const payload = {
-                name: name,
-                email: email,
+                // Основные поля формы
+                fullName: fullName,
+                phone: phoneInput.value,
+                contractNumber: contractNumber,
+                operator: operator,
+                amount: amountNum,
+                currency: currency,
+                tourComposition: tourCompositionValue,
+                dates: dateValidation.dates,
+                // Данные MAX
                 userId: webApp?.initDataUnsafe?.user?.id || null,
                 userFirstName: webApp?.initDataUnsafe?.user?.first_name || '',
                 initData: webApp?.initData || '',
                 timestamp: Date.now()
             };
 
-            const statusDiv = document.getElementById('status');
-            statusDiv.innerHTML = 'Отправка...';
+            statusDiv.innerHTML = 'Отправка данных...';
+            statusDiv.style.color = '#3b82f6';
 
+            // --- Отправка через туннель ---
+            // ВАЖНО: замените URL на актуальный адрес вашего туннеля!
+            const tunnelUrl = 'https://ca1d5772-417d-4356-af4e-f93bb95e7fe4.tunnel4.com/api/send-to-max-bot';
+            
             try {
-                const response = await fetch('https://ca1d5772-417d-4356-af4e-f93bb95e7fe4.tunnel4.com/api/send-to-max-bot', {
+                const response = await fetch(tunnelUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
                 if (response.ok) {
-                    statusDiv.innerHTML = '✅ Данные отправлены! Бот свяжется с вами.';
-                    setTimeout(() => { if (webApp) webApp.close(); }, 2000);
+                    statusDiv.innerHTML = '✅ Данные успешно отправлены! Бот свяжется с вами.';
+                    statusDiv.style.color = '#10b981';
+                    // Закрываем мини-приложение через 2 секунды
+                    setTimeout(() => {
+                        if (webApp) webApp.close();
+                    }, 2000);
                 } else {
-                    statusDiv.innerHTML = `❌ Ошибка сервера: ${response.status}`;
+                    const errorText = await response.text();
+                    statusDiv.innerHTML = `❌ Ошибка сервера: ${response.status} ${errorText}`;
+                    statusDiv.style.color = '#ef4444';
                 }
             } catch (error) {
-                statusDiv.innerHTML = '❌ Ошибка сети или сервера.';
-                console.error(error);
+                console.error('Ошибка отправки:', error);
+                statusDiv.innerHTML = '❌ Ошибка сети или сервера. Попробуйте позже.';
+                statusDiv.style.color = '#ef4444';
             }
         });
+
+        // Инициализация счётчика дат при загрузке
+        updateDateCounter(tourCompositionTextarea.value);
     </script>
 </body>
 </html>
