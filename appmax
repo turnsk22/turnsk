@@ -1,1 +1,107 @@
+<!DOCTYPE html>
 
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<title>Туры из Новосибирска</title>
+
+<meta charset="UTF-8"><meta name="DC.title" content="Туры из Новосибирска"><meta name="DC.subject" content="турагентство Pegas Touristik, обновление каждые 2 часа">
+<meta name="description" content="турагентство Pegas Touristik. Горящие туры из Новосибирска в 2026 году:  Таиланд, Египет, Турция, Кипр, Греция, Мальдивы, Вьетнам, ОАЭ, Грузия, Оман, Китай, Индия">
+<meta name="keywords" content="горящие туры из Новосибирска 2026, отдых на море, турагентство Пегас Туристик,  Pegas Touristik, Бердск, Лелюха, 9"><meta name="robots" content="index, follow"`>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="og:title" content="Туры из Новосибирска"   
+  
+<!-- Yandex.Metrika counter --><script type="text/javascript" >(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");ym(87430983, "init", {clickmap:true,trackLinks:true,accurateTrackBounce:true      });</script><noscript><div><img src="https://mc.yandex.ru/watch/87430983" style="position:absolute; left:-9999px;" alt="ya" /></div></noscript><!-- /Yandex.Metrika counter -->
+
+
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+   
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container my-4">
+     
+   <!-- Логотип -->
+        <header class="text-center mb-4">
+            <img src="Logo.svg" alt="логотип" class="img-fluid">
+        </header>
+
+
+<div class="tv-search-form tv-moduleid-9958810"></div>
+<script type="text/javascript" src="//tourvisor.ru/module/init.js"></script>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Открой мир вместе с нашим туристическим ботом!</h2>
+                <p class="card-text">Планируешь путешествие? Не знаешь, куда поехать? Доверь свой отдых искусственному интеллекту: наш Телеграм бот готов помочь тебе:</p>
+                <ul class="list-unstyled">
+                    <li>✈ Удобный поиск туров</li>
+                    <li>✈ Подписка на горящие туры</li>
+                    <li>✈ Бот проинформирует о снижении стоимости твоего тура</li>
+                    <li>✈ Поддержка: мы готовы ответить на твои вопросы и помочь с организацией поездки</li>
+                </ul>
+                <div class="d-flex mt-3" style="gap: 0.5rem;"> <!-- или используйте класс gap-2, если Bootstrap 5 -->
+                    <a href="https://t.me/Turnsk_bot" class="btn btn-primary flex-fill" target="_blank">бот в Телеграм</a>
+                    <a href="https://max.ru/id5445011775_bot" class="btn btn-primary flex-fill" target="_blank">бот в MAX</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Информация об офисе -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Фирменный офис продаж PEGAS Touristik</h2>
+                <p class="card-text">Более 15 лет работаем в Бердске:</p>
+                <p class="card-text"><strong>Адрес:</strong> г. Бердск, ул. Лелюха, 9</p>
+                <img src="map.png" alt="Карта офиса" class="img-fluid">
+            </div>
+        </div>
+
+        <!-- Социальные сети -->
+<div class="text-center mb-4">
+    <div class="d-flex flex-wrap justify-content-center gap-2">
+        <a href="https://t.me/turnsk_bot" class="btn btn-outline-primary d-flex align-items-center gap-2" target="_blank"><i class="fab fa-telegram"></i> Telegram бот</a>
+        <a href="https://t.me/pegas_berdsk" class="btn btn-outline-primary d-flex align-items-center gap-2" target="_blank"><i class="fab fa-telegram"></i> Telegram канал</a>
+        <a href="https://max.ru/id5445011775_biz" class="btn btn-outline-primary d-flex align-items-center gap-2" target="_blank"><i class="fas fa-bolt"></i> MAX канал</a>
+        <a href="https://instagram.com/pegas_berdsk" class="btn btn-outline-primary d-flex align-items-center gap-2" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+    </div>
+</div>
+
+        
+        <!-- Отзывы -->
+        <div class="text-center mb-4">
+            <h3>Отзывы о нас</h3>
+          
+  <div class="d-flex flex-wrap justify-content-center gap-2">
+              
+  <a href="https://novosibirsk.flamp.ru/firm/pegas_turistik_ofis_prodazh-141265770268874" class="btn btn-outline-primary d-flex align-items-center gap-2" target="_blank"><i class="fas fa-star"></i> Flamp</a>
+
+  <a href="https://yandex.ru/maps/org/pegas_turistik/135428414798/?ll=83.101332%2C54.764589&z=16" class="btn btn-outline-primary d-flex align-items-center gap-2" target="_blank">
+<i class="fas fa-map-marker-alt"></i> Яндекс</a>
+            </div>
+        </div>
+
+
+
+       <!-- Контакты -->
+        <div class="text-center mb-4">
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+        
+        <a href="https://wa.me/79537665454" class="btn btn-success d-flex align-items-center gap-2" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+
+                <a href="https://t.me/Trofimov7665454" class="btn btn-info text-white d-flex align-items-center gap-2" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+ 
+               <a href="tel:+79537665454" class="btn btn-primary d-flex align-items-center gap-2" target="_blank"><i class="fas fa-phone"></i> Позвонить</a>
+            </div>
+        </div>
+
+        <!-- Подвал -->
+        <footer class="text-center">
+            <p class="small">ООО ПИОНЕР, ИНН 5445011775, ОГРН 1115445002397, г. Бердск, ул. Лелюха, 9-62</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
